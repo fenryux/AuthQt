@@ -18,6 +18,7 @@ find_package(OpenSSL REQUIRED)
 set(PROJECT_SOURCES
         main.cpp
         user.h user.cpp
+        userdao.h userdao.cpp
         mainwindow.h mainwindow.cpp mainwindow.ui
         authenticationform.h authenticationform.cpp authenticationform.ui
         administratorform.h administratorform.cpp administratorform.ui

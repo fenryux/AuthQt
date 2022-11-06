@@ -16,7 +16,7 @@ User::User(const QString& login, const QString& password, const bool& blocked, c
     this->root = root;
 }
 
-User::User(User& other)
+User::User(const User& other)
 {
     this->login = other.getLogin();
     this->password = other.getPassword();

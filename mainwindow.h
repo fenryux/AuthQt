@@ -3,9 +3,11 @@
 
 #include <QMainWindow>
 #include <QStackedWidget>
+#include <QMap>
 #include "authenticationform.h"
 #include "administratorform.h"
 #include "userform.h"
+#include "user.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,11 +28,13 @@ private:
     AdministratorForm * adminWidget;
     UserForm * userWidget;
 
+    QMap<QString, User> * users;
+
     enum AppMode{
-        Auth,
+        Authentication,
         SignUp,
-        Admin,
-        User
+        Administrator,
+        Users
     };
 };
 #endif // MAINWINDOW_H

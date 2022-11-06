@@ -17,6 +17,9 @@ AuthenticationForm::~AuthenticationForm()
 }
 
 void AuthenticationForm::loginSlot(){
+    QString login = ui->loginLineEdit->text();
+    QString password = ui->passwordLabel->text();
+
 
 }
 

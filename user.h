@@ -13,7 +13,7 @@ private:
 
 public:
     User(const QString& login, const QString& password, const bool& blocked, const bool& root);
-    User(User& other);
+    User(const User& other);
     User();
     ~User();
 
