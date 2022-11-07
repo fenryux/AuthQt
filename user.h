@@ -2,6 +2,7 @@
 #define USER_H
 
 #include <QtCore/qstring.h>
+#include <qjsonobject.h>
 
 class User
 {
@@ -13,6 +14,7 @@ private:
 
 public:
     User(const QString& login, const QString& password, const bool& blocked, const bool& root);
+    User(const QJsonObject& jsonObject);
     User(const User& other);
     User();
     ~User();
@@ -23,6 +25,7 @@ public:
     bool isRoot() const;
     QString getLogin() const;
     QString getPassword() const;
+    QJsonObject toJsonObject() const;
 };
 
 #endif // USER_H

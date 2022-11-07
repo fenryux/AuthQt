@@ -11,17 +11,19 @@ class UserDAO
 {
 public:
     explicit UserDAO(QWidget * parent = nullptr);
-    void read(const QString& filePath);
-    void write(const QString& filePath, const QMap<QString, User>& users);
-    void save(const QMap<QString, User>& users);
-    void saveAs(const QMap<QString, User>& users);
+    bool read(const QString& filePath);
+    void write(const QString& filePath);
+    bool contains(const QString& key);
     void insert(const QString& key, const User& user);
     void remove(const QString& key);
-    bool contains(const QString& key);
+    QList<QString> keys();
+    QList<User> values();
 
 private:
     QWidget * parent;
     QMap<QString, User> users;
+
+    QMap<QString, User> fromJsonToMap(const QJsonArray& jsonArray);
 };
 
 #endif // USERDAO_H

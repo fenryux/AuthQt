@@ -16,6 +16,13 @@ User::User(const QString& login, const QString& password, const bool& blocked, c
     this->root = root;
 }
 
+User::User(const QJsonObject& jsonObject){
+    this->login = jsonObject.value("login").toString();
+    this->password = jsonObject.value("password").toString();
+    this->blocked = jsonObject.value("blocked").toBool(false);
+    this->root = jsonObject.value("root").toBool(false);
+}
+
 User::User(const User& other)
 {
     this->login = other.getLogin();
