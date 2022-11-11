@@ -62,3 +62,14 @@ QString User::getPassword() const
 {
     return password;
 }
+
+QJsonObject User::toJsonObject() const {
+    QJsonObject jsonObject;
+
+    jsonObject.insert(QStringLiteral("login"), this->login);
+    jsonObject.insert(QStringLiteral("password"), this->password);
+    jsonObject.insert(QStringLiteral("blocked"), this->blocked);
+    jsonObject.insert(QStringLiteral("root"), this->root);
+
+    return jsonObject;
+}

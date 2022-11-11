@@ -17,12 +17,13 @@ AuthenticationForm::~AuthenticationForm()
 }
 
 void AuthenticationForm::loginSlot(){
-    QString login = ui->loginLineEdit->text();
-    QString password = ui->passwordLabel->text();
+    emit loginClicked(ui->loginLineEdit->text(), ui->passwordLineEdit->text());
 
-
+    qDebug() << "Data send to authenticate:";
+    qDebug() << "             login:    " + ui->loginLineEdit->text();
+    qDebug() << "             password: " + ui->passwordLineEdit->text();
 }
 
 void AuthenticationForm::signUpSlot(){
-
+    emit signUpClicked();
 }

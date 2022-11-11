@@ -4,10 +4,10 @@
 #include <QMainWindow>
 #include <QStackedWidget>
 #include <QMap>
+#include <QMessageBox>
 #include "authenticationform.h"
-#include "administratorform.h"
 #include "userform.h"
-#include "user.h"
+#include "userdao.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,20 +21,24 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private:
-    Ui::MainWindow *ui;
-
-    AuthenticationForm * authWidget;
-    AdministratorForm * adminWidget;
-    UserForm * userWidget;
-
-    QMap<QString, User> * users;
-
     enum AppMode{
         Authentication,
         SignUp,
-        Administrator,
         Users
     };
+
+public slots:
+    void setApplicationMode(AppMode mode);
+
+private:
+    Ui::MainWindow *ui;
+    AuthenticationForm * authWidget;
+    UserForm * userWidget;
+
+    const QString DEFAULT_FILEPATH = "../AuthQt/db.json";
+    UserDAO * userDAO;
+
+    void setupConnectsAndDAO();
+
 };
 #endif // MAINWINDOW_H

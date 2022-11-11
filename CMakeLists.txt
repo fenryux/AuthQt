@@ -21,7 +21,6 @@ set(PROJECT_SOURCES
         userdao.h userdao.cpp
         mainwindow.h mainwindow.cpp mainwindow.ui
         authenticationform.h authenticationform.cpp authenticationform.ui
-        administratorform.h administratorform.cpp administratorform.ui
         userform.h userform.cpp userform.ui
 )
 

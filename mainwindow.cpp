@@ -8,26 +8,39 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     authWidget = new AuthenticationForm();
-    adminWidget = new AdministratorForm();
     userWidget = new UserForm();
 
-    users = new QMap<QString,User>();
+    userDAO = new UserDAO(this);
+
+    setupConnectsAndDAO();
 
     ui->widgetContainer->addWidget(authWidget);
     // insert signup widget
-    ui->widgetContainer->addWidget(adminWidget);
     ui->widgetContainer->addWidget(userWidget);
 
     ui->widgetContainer->setCurrentIndex(Authentication);
 }
 
+void MainWindow::setupConnectsAndDAO(){
+    if(!userDAO->read(DEFAULT_FILEPATH)){
+        QMessageBox::warning(this, "Error!", "Corrupted file!");
+        return;
+    }
+
+    connect(authWidget, &AuthenticationForm::loginClicked, userDAO, &UserDAO::authenticateUser);
+    connect(userDAO, &UserDAO::userAuthenticated, this, &MainWindow::setApplicationMode);
+//    connect(authWidget, &AuthenticationForm::signUpClicked, this, &MainWindow::setApplicationMode);
+//    connect(userDAO, &UserDAO::sendAuthenticatedUser, userWidget, &UserForm::setCurrentUser);
+}
+
 MainWindow::~MainWindow()
 {
     delete authWidget;
-    delete adminWidget;
     delete userWidget;
-    users->clear();
-    delete users;
+    delete userDAO;
     delete ui;
 }
 
+void MainWindow::setApplicationMode(AppMode mode){
+
+}
