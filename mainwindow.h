@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include "authenticationform.h"
 #include "userform.h"
+#include "signupform.h"
 #include "userdao.h"
 
 QT_BEGIN_NAMESPACE
@@ -27,12 +28,10 @@ public:
         Users
     };
 
-public slots:
-    void setApplicationMode(AppMode mode);
-
 private:
     Ui::MainWindow *ui;
     AuthenticationForm * authWidget;
+    SignUpForm * signUpWidget;
     UserForm * userWidget;
 
     const QString DEFAULT_FILEPATH = "../AuthQt/db.json";

@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     authWidget = new AuthenticationForm();
+    signUpWidget = new SignUpForm();
     userWidget = new UserForm();
 
     userDAO = new UserDAO(this);
@@ -15,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupConnectsAndDAO();
 
     ui->widgetContainer->addWidget(authWidget);
-    // insert signup widget
+    ui->widgetContainer->addWidget(signUpWidget);
     ui->widgetContainer->addWidget(userWidget);
 
     ui->widgetContainer->setCurrentIndex(Authentication);
@@ -28,8 +29,14 @@ void MainWindow::setupConnectsAndDAO(){
     }
 
     connect(authWidget, &AuthenticationForm::loginClicked, userDAO, &UserDAO::authenticateUser);
-    connect(userDAO, &UserDAO::userAuthenticated, this, &MainWindow::setApplicationMode);
-//    connect(authWidget, &AuthenticationForm::signUpClicked, this, &MainWindow::setApplicationMode);
+    connect(userDAO, &UserDAO::userAuthenticated, userWidget, &UserForm::receiveAuthenticatedUser);
+    connect(userWidget, &UserForm::setWidgetActive, ui->widgetContainer, &QStackedWidget::setCurrentWidget);
+
+    connect(authWidget, &AuthenticationForm::signUpClicked, signUpWidget, &SignUpForm::signUp);
+    connect(signUpWidget, &SignUpForm::setWidgetActive, ui->widgetContainer, &QStackedWidget::setCurrentWidget);
+    connect(signUpWidget, &SignUpForm::sendUserData, userDAO, &UserDAO::signUpUser);
+    connect(userDAO, &UserDAO::userSignedUp, authWidget, &AuthenticationForm::userSignedUp);
+    connect(authWidget, &AuthenticationForm::setWidgetActive, ui->widgetContainer, &QStackedWidget::setCurrentWidget);
 //    connect(userDAO, &UserDAO::sendAuthenticatedUser, userWidget, &UserForm::setCurrentUser);
 }
 
@@ -39,8 +46,4 @@ MainWindow::~MainWindow()
     delete userWidget;
     delete userDAO;
     delete ui;
-}
-
-void MainWindow::setApplicationMode(AppMode mode){
-
 }

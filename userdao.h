@@ -15,16 +15,16 @@ public:
     bool read(const QString& filePath);
     void write(const QString& filePath);
     bool contains(const QString& key);
-    void insert(const QString& key, const User& user);
-    void remove(const QString& key);
     QList<QString> keys();
     QList<User> values();
 
 public slots:
-    void authenticateUser(QString login, QString password);
+    void authenticateUser(const QString& login, const QString& password);
+    void signUpUser(const QString& login, const QString& password);
 
 signals:
     void userAuthenticated(User user);
+    void userSignedUp();
 
 private:
     QWidget * parent;

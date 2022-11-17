@@ -12,3 +12,7 @@ UserForm::~UserForm()
 {
     delete ui;
 }
+
+void UserForm::receiveAuthenticatedUser(User user){
+    emit setWidgetActive(this);
+}

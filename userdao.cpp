@@ -4,13 +4,25 @@
 UserDAO::UserDAO(QWidget * parent): parent(parent)
 {}
 
-void UserDAO::authenticateUser(QString login, QString password){
+void UserDAO::authenticateUser(const QString& login, const QString& password){
     if(users.contains(login) && users.value(login).getPassword() == password){
         emit userAuthenticated(users.value(login));
-        // emit sendAuthenticatedUser(users.value(login));
     }
     else {
         QMessageBox::warning(parent, "Warning!", "Incorrect login or password!");
+        return;
+    }
+}
+
+void UserDAO::signUpUser(const QString& login, const QString& password){
+    if(!users.contains(login)){
+        User newUser(login, password, false, false);
+        users.insert(login, newUser);
+
+        emit userSignedUp();
+    }
+    else{
+        QMessageBox::warning(parent, "Warning!", "User already exits!");
         return;
     }
 }
