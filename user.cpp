@@ -33,33 +33,31 @@ User::User(const User& other)
 
 User::~User(){}
 
-void User::setLogin(const QString& login)
-{
+void User::setLogin(const QString& login) {
     this->login = login;
 }
 
-void User::setPassword(const QString& password)
-{
+void User::setPassword(const QString& password) {
     this->password = password;
 }
 
-bool User::isBlocked() const
-{
+void User::setBlocked(const bool& blocked) {
+    this->blocked = blocked;
+}
+
+bool User::isBlocked() const {
     return blocked;
 }
 
-bool User::isRoot() const
-{
+bool User::isRoot() const {
     return root;
 }
 
-QString User::getLogin() const
-{
+QString User::getLogin() const {
     return login;
 }
 
-QString User::getPassword() const
-{
+QString User::getPassword() const {
     return password;
 }
 

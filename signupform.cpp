@@ -7,6 +7,8 @@ SignUpForm::SignUpForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->signUpPushButton->setEnabled(false);
+
     connect(ui->signUpPushButton, &QPushButton::clicked, this, &SignUpForm::signUpClicked);
     connect(ui->loginLineEdit, &QLineEdit::textEdited, this, &SignUpForm::textEdited);
     connect(ui->passwordLineEdit, &QLineEdit::textEdited, this, &SignUpForm::textEdited);

@@ -23,6 +23,7 @@ set(PROJECT_SOURCES
         authenticationform.h authenticationform.cpp authenticationform.ui
         signupform.h signupform.cpp signupform.ui
         userform.h userform.cpp userform.ui
+        changepassworddialog.h changepassworddialog.cpp changepassworddialog.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -42,7 +43,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(AuthQt PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(AuthQt PRIVATE Qt${QT_VERSION_MAJOR}::Widgets OpenSSL::Crypto OpenSSL::SSL)
 
 set_target_properties(AuthQt PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

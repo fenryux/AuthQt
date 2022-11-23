@@ -2,6 +2,7 @@
 #define SIGNUPFORM_H
 
 #include <QWidget>
+#include "userdao.h"
 
 namespace Ui {
 class SignUpForm;
@@ -12,7 +13,7 @@ class SignUpForm : public QWidget
     Q_OBJECT
 
 public:
-    explicit SignUpForm(QWidget *parent = nullptr);
+    explicit SignUpForm(QWidget *parent = nullptr, UserDAO * userDAO = nullptr);
     ~SignUpForm();
 
 signals:

@@ -7,28 +7,20 @@
 #include <qjsonobject.h>
 #include <qfile.h>
 
-class UserDAO: public QObject
+class UserDAO
 {
-    Q_OBJECT
 public:
     explicit UserDAO(QWidget * parent = nullptr);
     bool read(const QString& filePath);
     void write(const QString& filePath);
-    bool contains(const QString& key);
+    User value(const QString& key);
     QList<QString> keys();
     QList<User> values();
-
-public slots:
-    void authenticateUser(const QString& login, const QString& password);
-    void signUpUser(const QString& login, const QString& password);
-
-signals:
-    void userAuthenticated(User user);
-    void userSignedUp();
+    bool authenticateUser(const QString& login, const QString& password);
 
 private:
     QWidget * parent;
-    QMap<QString, User> users;
+    QMap<QString, User> * users;
 
     QMap<QString, User> fromJsonToMap(const QJsonArray& jsonArray);
     QJsonArray toJsonArray();

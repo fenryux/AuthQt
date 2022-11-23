@@ -2,11 +2,13 @@
 #include <qmessagebox.h>
 
 UserDAO::UserDAO(QWidget * parent): parent(parent)
-{}
+{
+    users = new QMap<QString, User>();
+}
 
 void UserDAO::authenticateUser(const QString& login, const QString& password){
-    if(users.contains(login) && users.value(login).getPassword() == password){
-        emit userAuthenticated(users.value(login));
+    if(users->contains(login) && users->value(login).getPassword() == password){
+        emit userAuthenticated(users->value(login));
     }
     else {
         QMessageBox::warning(parent, "Warning!", "Incorrect login or password!");
@@ -15,11 +17,11 @@ void UserDAO::authenticateUser(const QString& login, const QString& password){
 }
 
 void UserDAO::signUpUser(const QString& login, const QString& password){
-    if(!users.contains(login)){
+    if(!users->contains(login)){
         User newUser(login, password, false, false);
-        users.insert(login, newUser);
+        users->insert(login, newUser);
 
-        emit userSignedUp();
+        emit userAdded();
     }
     else{
         QMessageBox::warning(parent, "Warning!", "User already exits!");
@@ -39,7 +41,7 @@ bool UserDAO::read(const QString& filePath) {
     QJsonDocument jsonDocument = QJsonDocument::fromJson(file.readAll());
 
     if(!jsonDocument.array().isEmpty())
-        users = fromJsonToMap(jsonDocument.array());
+        *users = fromJsonToMap(jsonDocument.array());
     else{
         QMessageBox::warning(parent, "Warning!", "JSON file doesn't contain array!");
         return false;
@@ -58,6 +60,18 @@ void UserDAO::write(const QString& filePath) {
     }
 }
 
+User UserDAO::value(const QString& key){
+    return users->operator[](key);
+}
+
+QList<QString> UserDAO::keys(){
+    return users->keys();
+}
+
+QList<User> UserDAO::values(){
+    return users->values();
+}
+
 QMap<QString, User> UserDAO::fromJsonToMap(const QJsonArray& jsonArray){
     QMap<QString, User> userMap;
 
@@ -72,7 +86,7 @@ QMap<QString, User> UserDAO::fromJsonToMap(const QJsonArray& jsonArray){
 QJsonArray UserDAO::toJsonArray(){
     QJsonArray jsonArray;
 
-    for(const auto it: users)
+    for(const auto it: *users)
         jsonArray.push_back(it.toJsonObject());
 
     return jsonArray;

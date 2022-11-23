@@ -1,8 +1,11 @@
 #include "authenticationform.h"
 #include "./ui_authenticationform.h"
 
-AuthenticationForm::AuthenticationForm(QWidget *parent) :
+#include <qmessagebox.h>
+
+AuthenticationForm::AuthenticationForm(QWidget *parent, UserDAO * userDAO) :
     QWidget(parent),
+    userDAO(userDAO),
     ui(new Ui::AuthenticationForm)
 {
     ui->setupUi(this);
@@ -17,17 +20,27 @@ AuthenticationForm::~AuthenticationForm()
 }
 
 void AuthenticationForm::loginSlot(){
-    emit loginClicked(ui->loginLineEdit->text(), ui->passwordLineEdit->text());
+    QString login = ui->loginLineEdit->text();
+    QString password = ui->passwordLineEdit->text();
 
-//    qDebug() << "Data send to authenticate:";
-//    qDebug() << " login:    " + ui->loginLineEdit->text();
-//    qDebug() << " password: " + ui->passwordLineEdit->text();
+    if(!userDAO->authenticateUser(login, password)){
+        attempts++;
+        if(attempts == 3){
+            QMessageBox::warning(this, "Warning!",
+                                       "Over attempts limit!");
+            QCoreApplication::exit();
+        }
+        else
+            QMessageBox::warning(this, "Warning!",
+                                       "Invalid login or password! Attempts left: " + QString::number(attempts));
+        ui->loginLineEdit->text().clear();
+        ui->passwordLineEdit->text().clear();
+        return;
+    }
+
+    emit userAuthenticated(login);
 }
 
 void AuthenticationForm::signUpSlot(){
     emit signUpClicked();
-}
-
-void AuthenticationForm::userSignedUp(){
-    emit setWidgetActive(this);
 }

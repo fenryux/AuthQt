@@ -21,6 +21,7 @@ public:
 
     void setLogin(const QString& login);
     void setPassword(const QString& password);
+    void setBlocked(const bool& blocked);
     bool isBlocked() const;
     bool isRoot() const;
     QString getLogin() const;
