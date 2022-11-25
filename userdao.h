@@ -14,8 +14,11 @@ public:
     bool read(const QString& filePath);
     void write(const QString& filePath);
     User value(const QString& key);
+    bool insert(const QString& key, const User& value);
+    bool remove(const QString& key);
     QList<QString> keys();
     QList<User> values();
+    bool contains(const QString& key);
     bool authenticateUser(const QString& login, const QString& password);
 
 private:

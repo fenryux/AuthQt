@@ -6,27 +6,31 @@ UserDAO::UserDAO(QWidget * parent): parent(parent)
     users = new QMap<QString, User>();
 }
 
-void UserDAO::authenticateUser(const QString& login, const QString& password){
+bool UserDAO::authenticateUser(const QString& login, const QString& password){
     if(users->contains(login) && users->value(login).getPassword() == password){
-        emit userAuthenticated(users->value(login));
+        return true;
     }
-    else {
-        QMessageBox::warning(parent, "Warning!", "Incorrect login or password!");
-        return;
-    }
+    return false;
 }
 
-void UserDAO::signUpUser(const QString& login, const QString& password){
-    if(!users->contains(login)){
-        User newUser(login, password, false, false);
-        users->insert(login, newUser);
+bool UserDAO::contains(const QString& key){
+    return users->contains(key);
+}
 
-        emit userAdded();
+bool UserDAO::insert(const QString& key, const User& user){
+    if(!users->contains(key)){
+        users->insert(key, user);
+        return true;
     }
-    else{
-        QMessageBox::warning(parent, "Warning!", "User already exits!");
-        return;
+    else return false;
+}
+
+bool UserDAO::remove(const QString& key){
+    if(users->contains(key)){
+        users->remove(key);
+        return true;
     }
+    else return false;
 }
 
 bool UserDAO::read(const QString& filePath) {

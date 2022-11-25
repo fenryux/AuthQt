@@ -29,19 +29,18 @@ void MainWindow::setupConnectsAndDAO(){
         return;
     }
 
-    connect(userWidget, &UserForm::setWidgetActive, ui->widgetContainer, &QStackedWidget::setCurrentWidget);
-    connect(authWidget, &AuthenticationForm::setWidgetActive, ui->widgetContainer, &QStackedWidget::setCurrentWidget);
-    connect(signUpWidget, &SignUpForm::setWidgetActive, ui->widgetContainer, &QStackedWidget::setCurrentWidget);
+    connect(authWidget, &AuthenticationForm::signUpClicked, this,
+            [this](){ ui->widgetContainer->setCurrentWidget(signUpWidget); });
+    connect(signUpWidget, &SignUpForm::toAuth, this,
+            [this](){ ui->widgetContainer->setCurrentWidget(authWidget); });
 
-    connect(authWidget, &AuthenticationForm::loginClicked, userDAO, &UserDAO::authenticateUser);
-    connect(signUpWidget, &SignUpForm::sendUserData, userDAO, &UserDAO::signUpUser);
-
-    connect(userDAO, &UserDAO::userAuthenticated, userWidget, &UserForm::receiveAuthenticatedUser);
-    connect(userDAO, &UserDAO::userAdded, authWidget, &AuthenticationForm::userSignedUp);
-
-    connect(authWidget, &AuthenticationForm::signUpClicked, signUpWidget, &SignUpForm::signUp);
-    connect(userWidget, &UserForm::toAuthPage, this,
-            [this](){ui->widgetContainer->setCurrentWidget(authWidget);});
+    connect(authWidget, &AuthenticationForm::signUpClicked, this,
+            [this](){ ui->widgetContainer->setCurrentWidget(signUpWidget); });
+    connect(authWidget, &AuthenticationForm::userAuthenticated, this,
+            [this](const QString& login){ userWidget->receiveAuthenticatedUser(userDAO->value(login));
+                                          ui->widgetContainer->setCurrentWidget(userWidget); });
+    connect(userWidget, &UserForm::toAuth, this,
+            [this](){ ui->widgetContainer->setCurrentWidget(authWidget); });
 }
 
 MainWindow::~MainWindow()

@@ -17,16 +17,17 @@ public:
     ~SignUpForm();
 
 signals:
-    void sendUserData(const QString& login, const QString& password);
-    void setWidgetActive(QWidget * widget);
+    void toAuth();
 
 public slots:
     void signUpClicked();
     void textEdited(const QString& text);
-    void signUp();
+    void toAuthPage();
 
 private:
     Ui::SignUpForm *ui;
+
+    UserDAO * userDAO;
 };
 
 #endif // SIGNUPFORM_H

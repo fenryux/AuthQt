@@ -21,7 +21,6 @@ public slots:
 
 signals:
     void userAuthenticated(const QString& login);
-    void setWidgetActive(QWidget * widget);
     void signUpClicked();
 
 private:

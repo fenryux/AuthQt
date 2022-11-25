@@ -19,13 +19,13 @@ public:
 
 signals:
     void setWidgetActive(QWidget * widget);
-    void toAuthPage();
+    void toAuth();
 
 public slots:
     void receiveAuthenticatedUser(User user);
 
 private slots:
-    void toAuthPageButtonClicked();
+    void toAuthPage();
 
 private:
     Ui::UserForm *ui;

@@ -1,16 +1,17 @@
 #include "userform.h"
 #include "ui_userform.h"
 
-UserForm::UserForm(QWidget *parent) :
+UserForm::UserForm(QWidget *parent, UserDAO * userDAO) :
     QWidget(parent),
-    ui(new Ui::UserForm)
+    ui(new Ui::UserForm),
+    userDAO(userDAO)
 {
     ui->setupUi(this);
 
     connect(ui->blockedCheckBox, &QCheckBox::stateChanged, this,
             [this](int state){ currentUser.setBlocked(state);});
     connect(ui->selectedUser, &QComboBox::currentTextChanged, this,
-            [this](const QString& user){ ui->blockedCheckBox->setEnabled(UserDAO::value(user).isBlocked());});
+            [this, userDAO](const QString& user){ ui->blockedCheckBox->setEnabled(userDAO->value(user).isBlocked());});
 }
 
 UserForm::~UserForm()
@@ -18,13 +19,12 @@ UserForm::~UserForm()
     delete ui;
 }
 
-void UserForm::toAuthPageButtonClicked(){
-    emit toAuthPage();
+void UserForm::toAuthPage(){
+    emit toAuth();
 }
 
 void UserForm::receiveAuthenticatedUser(User user){
-    emit setWidgetActive(this);
-    ui->selectedUser->addItems(UserDAO::keys());
+    ui->selectedUser->addItems(userDAO->keys());
     currentUser = user;
 
     if(!currentUser.isRoot()){

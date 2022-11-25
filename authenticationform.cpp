@@ -33,7 +33,6 @@ void AuthenticationForm::loginSlot(){
         else
             QMessageBox::warning(this, "Warning!",
                                        "Invalid login or password! Attempts left: " + QString::number(attempts));
-        ui->loginLineEdit->text().clear();
         ui->passwordLineEdit->text().clear();
         return;
     }
